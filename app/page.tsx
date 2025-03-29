@@ -35,12 +35,6 @@ export default function Home() {
               href="#"
               className="text-sm font-medium hover:underline underline-offset-4"
             >
-              Artists
-            </Link>
-            <Link
-              href="#"
-              className="text-sm font-medium hover:underline underline-offset-4"
-            >
               About
             </Link>
           </nav>
