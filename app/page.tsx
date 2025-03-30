@@ -5,12 +5,14 @@ import { ArrowRight, Heart, Search, ShoppingCart } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Metadata } from 'next'
+import { listAllProducts } from '@/lib/printify'
 
 export const metadata: Metadata = {
   title: 'FrameFolio | Andrew Usher'
 }
 
-export default function Home() {
+export default async function Home() {
+  const products = await listAllProducts()
   return (
     <div className="flex min-h-screen flex-col">
       <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -116,14 +118,14 @@ export default function Home() {
                   Featured Artwork
                 </h2>
                 <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                  Curated selection of our most popular prints this season
+                  Curated selection of the most popular prints this season
                 </p>
               </div>
             </div>
             <div className="mx-auto grid max-w-5xl grid-cols-1 gap-6 py-12 sm:grid-cols-2 md:grid-cols-3 lg:gap-8">
-              {[1, 2, 3, 4, 5, 6].map((i) => (
+              {products.map((product) => (
                 <div
-                  key={i}
+                  key={product.id}
                   className="group relative overflow-hidden rounded-lg"
                 >
                   <Link href="#" className="absolute inset-0 z-10">
@@ -131,16 +133,15 @@ export default function Home() {
                   </Link>
                   <div className="relative aspect-square overflow-hidden rounded-lg">
                     <Image
-                      src={`/placeholder.svg?height=400&width=400&text=Artwork ${i}`}
-                      alt={`Artwork ${i}`}
+                      src={product.images[0].src}
+                      alt={`Artwork ${product.title}`}
                       fill
                       className="object-cover transition-transform group-hover:scale-105"
                     />
                   </div>
                   <div className="p-3">
-                    <h3 className="font-medium">Artwork Title {i}</h3>
-                    <p className="text-sm text-muted-foreground">Artist Name</p>
-                    <p className="mt-1 font-medium">$99.00</p>
+                    <h3 className="font-medium">{product.title}</h3>
+                    <p className="mt-1 font-medium">$50.00</p>
                   </div>
                 </div>
               ))}
